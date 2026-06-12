@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Planning | Koley Financial Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Life Insurance Gap Analyzer</h1>
+        <p class="subtitle">Ensuring your family is "Protected by Excellence" with a data-driven safety net.</p>
+
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Current Annual Income (₹)</label>
+                    <input type="number" id="annualIncome" value="1200000">
+                </div>
+                <div class="input-group">
+                    <label>Annual Family Expenses (₹)</label>
+                    <input type="number" id="annualExpenses" value="600000">
+                </div>
+                <div class="input-group">
+                    <label>Total Outstanding Liabilities/Loans (₹)</label>
+                    <input type="number" id="liabilities" value="2500000">
+                </div>
+                <div class="input-group">
+                    <label>Existing Life Insurance Cover (₹)</label>
+                    <input type="number" id="existingCover" value="1000000">
+                </div>
+                <div class="input-group">
+                    <label>Years to Retirement</label>
+                    <input type="number" id="yearsToRetire" value="25">
+                </div>
+                <button class="calc-btn" onclick="calculateInsurance()">Analyze My Protection</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-item">
+                    <span class="result-label">Recommended Total Cover</span>
+                    <strong class="result-value" id="recommendedCover">₹ --</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Insurance Gap (Shortfall)</span>
+                    <strong class="result-value" id="insuranceGap" style="color: #e74c3c;">₹ --</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Protection Status</span>
+                    <strong class="result-value" id="protectionStatus" style="font-size: 1.2rem;">Pending...</strong>
+                </div>
+                <p class="disclaimer">*The calculation follows the Human Life Value (HLV) method, accounting for income replacement and debt clearance.</p>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+    <script>
+        function calculateInsurance() {
+            const income = parseFloat(document.getElementById('annualIncome').value) || 0;
+            const expenses = parseFloat(document.getElementById('annualExpenses').value) || 0;
+            const debt = parseFloat(document.getElementById('liabilities').value) || 0;
+            const existing = parseFloat(document.getElementById('existingCover').value) || 0;
+            const years = parseFloat(document.getElementById('yearsToRetire').value) || 0;
+
+            // HLV Formula: (Annual Income - Personal Expenses) * Years to retire + Debts
+            // Assuming personal expenses of the breadwinner are 30% of income
+            const breadwinnerExpenses = income * 0.3;
+            const incomeReplacementValue = (income - breadwinnerExpenses) * years;
+            
+            const totalRequired = incomeReplacementValue + debt;
+            const gap = totalRequired - existing;
+
+            // UI Update
+            document.getElementById('recommendedCover').innerText = "₹ " + (totalRequired / 10000000).toFixed(2) + " Crores";
+            
+            if (gap > 0) {
+                document.getElementById('insuranceGap').innerText = "₹ " + (gap / 10000000).toFixed(2) + " Crores";
+                document.getElementById('insuranceGap').style.color = "#e74c3c";
+                document.getElementById('protectionStatus').innerText = "Under-Insured";
+                document.getElementById('protectionStatus').style.color = "#ffc300";
+            } else {
+                document.getElementById('insuranceGap').innerText = "₹ 0 (No Gap)";
+                document.getElementById('insuranceGap').style.color = "#27ae60";
+                document.getElementById('protectionStatus').innerText = "Fully Protected";
+                document.getElementById('protectionStatus').style.color = "#27ae60";
+            }
+        }
+    </script>
+</body>
+</html>

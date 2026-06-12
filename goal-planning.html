@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Planner | Koley Financial Services</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Specific Styles for Goal Planner Layout */
+        .calc-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .input-section, .result-section {
+            background: #001d3d;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #c5a059;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ffc300;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: #000814;
+            border: 1px solid rgba(197, 160, 89, 0.5);
+            color: white;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .calc-btn {
+            background: #ffc300;
+            color: #000;
+            border: none;
+            padding: 15px 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: #e6b000;
+            transform: translateY(-2px);
+        }
+
+        .calc-btn.outline {
+            background: transparent;
+            color: #ffc300;
+            border: 2px solid #ffc300;
+            margin-top: 15px;
+        }
+
+        .result-box {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+        }
+
+        .result-label {
+            display: block;
+            color: #ccc;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            color: #ffc300;
+            font-weight: bold;
+        }
+
+        .info-text {
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Goal Planning Tool</h1>
+        <p class="subtitle">Calculate the monthly investment required to reach your target.</p>
+        
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Target Goal Amount (₹)</label>
+                    <input type="number" id="targetAmount" value="1000000">
+                </div>
+                <div class="input-group">
+                    <label>Years to Achieve Goal</label>
+                    <input type="number" id="goalYears" value="10">
+                </div>
+                <div class="input-group">
+                    <label>Expected Return (%)</label>
+                    <input type="number" id="goalReturns" value="12">
+                </div>
+                <button class="calc-btn" onclick="calculateGoal()">Plan My Goal</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Required Monthly SIP</span>
+                        <div class="result-value" id="requiredSip">₹ 4,304</div>
+                    </div>
+                    <p class="info-text">Based on your inputs, this is the amount you need to save monthly to meet your goal.</p>
+                    <div id="downloadArea"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="nav.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        // Calculation logic
+        function calculateGoal() {
+            const fv = parseFloat(document.getElementById('targetAmount').value);
+            const years = parseFloat(document.getElementById('goalYears').value);
+            const r = parseFloat(document.getElementById('goalReturns').value) / 100 / 12;
+            const n = years * 12;
+            
+            // Formula for SIP required to reach a Future Value
+            const sip = fv / (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+            const result = Math.round(sip);
+            
+            document.getElementById('requiredSip').innerText = "₹ " + result.toLocaleString('en-IN');
+            
+            // Show Download Button
+            const downloadArea = document.getElementById('downloadArea');
+            downloadArea.innerHTML = `<button class="calc-btn outline" onclick="generatePDF()">Download Report (PDF)</button>`;
+        }
+
+        // PDF Generation Logic
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Ask for Customer Name
+            const userName = prompt("Enter your name for the report:", "Valued Client");
+            if (userName === null) return;
+
+            const target = document.getElementById('targetAmount').value;
+            const years = document.getElementById('goalYears').value;
+            const returns = document.getElementById('goalReturns').value;
+            const sipAmount = document.getElementById('requiredSip').innerText;
+
+            // Header Section
+            doc.setFillColor(0, 53, 102); // Navy Blue
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(255, 195, 0); // Gold
+            doc.setFontSize(22);
+            doc.text("KOLEY FINANCIAL SERVICES", 105, 20, { align: "center" });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(255, 255, 255);
+            doc.text("Rooted in Trust • Protected by Excellence", 105, 28, { align: "center" });
+
+            // Report Content
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(16);
+            doc.text(`Personalized Goal Plan for: ${userName}`, 20, 60);
+            
+            doc.setDrawColor(197, 160, 89); // Gold line
+            doc.line(20, 65, 190, 65);
+
+            doc.setFontSize(12);
+            doc.text(`Target Goal Amount:`, 20, 85);
+            doc.text(`INR ${parseFloat(target).toLocaleString('en-IN')}`, 140, 85);
+
+            doc.text(`Planning Duration:`, 20, 95);
+            doc.text(`${years} Years`, 140, 95);
+
+            doc.text(`Expected Rate of Return:`, 20, 105);
+            doc.text(`${returns}% p.a.`, 140, 105);
+
+            // Highlighted Result Box
+            doc.setFillColor(245, 245, 245);
+            doc.rect(20, 115, 170, 25, 'F');
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text(`Recommended Monthly SIP:`, 30, 131);
+            doc.setTextColor(0, 53, 102);
+            doc.text(`${sipAmount}`, 140, 131);
+
+            // Contact & Disclaimer
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            const disclaimer = "Note: Mutual Fund investments are subject to market risks. This report is an estimate based on your inputs and does not guarantee actual returns. Past performance is not indicative of future results.";
+            const splitDisclaimer = doc.splitTextToSize(disclaimer, 170);
+            doc.text(splitDisclaimer, 20, 160);
+
+            doc.setTextColor(0, 53, 102);
+            doc.setFontSize(10);
+            doc.text("Consultant: Avijit Koley | Contact: +91 94346 43120", 105, 280, { align: "center" });
+            doc.text("Koley Financial Services - Kolkata", 105, 286, { align: "center" });
+
+            // Save PDF
+            doc.save(`KFS_Plan_${userName.replace(/\s+/g, '_')}.pdf`);
+        }
+    </script>
+</body>
+</html>

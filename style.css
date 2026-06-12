@@ -1,0 +1,317 @@
+/* KOLEY FINANCIAL SERVICES (KFS) - MASTER STYLESHEET 
+    Refactored for Performance & Responsive Design
+*/
+
+/* --- Variables & Reset --- */
+:root {
+    --bg-dark: #000814;
+    --bg-navy: #001d3d;
+    --bg-vibrant: #003566;
+    --gold: #ffc300;
+    --gold-muted: #c5a059;
+    --white: #ffffff;
+    --text-gray: #ccc;
+    --success-green: #2ecc71;
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body { 
+    background-color: var(--bg-dark); 
+    color: var(--white); 
+    line-height: 1.6; 
+    overflow-x: hidden;
+}
+
+/* --- Navigation Header --- */
+#main-header {
+    background-color: #00122e;
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--gold-muted);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo { display: flex; align-items: center; }
+.logo img { height: 50px; }
+
+nav ul { list-style: none; display: flex; align-items: center; gap: 10px; }
+nav ul li { position: relative; padding: 10px 15px; }
+nav ul li a { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: 0.3s; }
+nav ul li a:hover { color: var(--gold-muted); }
+
+/* Active Link Highlighting */
+nav ul li a.active {
+    color: var(--gold) !important;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 5px;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--bg-navy);
+    min-width: 250px;
+    border-top: 2px solid var(--gold-muted);
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.8);
+}
+
+nav ul li:hover .dropdown-menu { display: block; }
+
+.dropdown-menu li a { 
+    display: block; 
+    padding: 12px 20px; 
+    font-size: 14px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+}
+
+.dropdown-menu li a.active {
+    border-bottom: none;
+    background-color: rgba(197, 160, 89, 0.2);
+}
+
+.dropdown-menu li a:hover { background-color: var(--bg-vibrant); color: var(--gold); }
+
+/* --- Buttons & Utilities --- */
+.login-btn { 
+    background-color: var(--gold); 
+    color: #000 !important; 
+    padding: 8px 20px; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    transition: 0.3s; 
+}
+
+.login-btn:hover { background-color: #e6b000; transform: scale(1.05); }
+
+.calc-btn, .pricing-btn { 
+    background: var(--gold); 
+    color: #000; 
+    border: none; 
+    padding: 15px; 
+    width: 100%; 
+    font-weight: bold; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.pricing-btn.solid { background: var(--gold); color: #000; border: none; }
+.pricing-btn.outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
+
+.calc-btn:hover, .pricing-btn:hover { 
+    background: #e6b000; 
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 195, 0, 0.2);
+}
+
+.result-value.profit { color: var(--success-green); }
+
+/* --- Layout Sections --- */
+.content-area { padding: 60px 10%; text-align: center; min-height: 80vh; }
+h1 { color: var(--gold-muted); margin-bottom: 20px; font-size: 2.5rem; }
+.subtitle { color: #aaa; margin-bottom: 40px; font-size: 1.1rem; }
+
+/* Hero Section */
+.hero-section {
+    height: 85vh;
+    background: radial-gradient(circle at center, var(--bg-navy) 0%, var(--bg-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    border-bottom: 2px solid var(--gold-muted);
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: var(--gold-muted);
+    margin-bottom: 45px;
+    font-style: italic;
+}
+
+.hero-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+/* --- Cards & Grids --- */
+.about-card, .price-card, .blog-card, .calc-container {
+    background: var(--bg-navy);
+    border: 1px solid var(--gold-muted);
+    border-radius: 12px;
+    padding: 30px;
+    transition: 0.3s;
+}
+
+.blog-grid, .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.price-card:hover, .blog-card:hover { 
+    transform: translateY(-10px); 
+    background: #002855; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* --- Partners Section --- */
+.partners-section { padding: 80px 0 40px; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 40px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.partner-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: grayscale(100%) brightness(150%);
+    transition: 0.3s;
+}
+
+.partner-logo:hover { filter: grayscale(0%) brightness(100%); transform: translateY(-5px); }
+.partner-logo img { max-width: 120px; height: 50px; object-fit: contain; }
+
+/* --- Footer & Contact --- */
+footer {
+    background-color: var(--bg-vibrant);
+    padding: 40px 10%;
+    border-top: 2px solid var(--gold-muted);
+    margin-top: 60px;
+}
+
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: 0.3s;
+}
+
+.whatsapp-float:hover { transform: scale(1.1); }
+
+/* --- Responsive Layout (Mobile Fixes) --- */
+@media (max-width: 992px) {
+    /* Mobile Menu Logic */
+    .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+    .menu-toggle .bar { width: 25px; height: 3px; background-color: var(--gold); }
+
+    #nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-navy);
+        flex-direction: column;
+        padding: 20px 0;
+        border-bottom: 2px solid var(--gold-muted);
+    }
+
+    #nav-list.active { display: flex; }
+    nav ul { flex-direction: column; width: 100%; gap: 0; }
+    nav ul li { width: 100%; text-align: center; }
+    .dropdown-menu { position: static; width: 100%; box-shadow: none; }
+}
+
+@media (max-width: 768px) {
+    .award-flex, .owner-flex { flex-direction: column; text-align: center; }
+    .hero-section { height: 70vh; }
+    .partners-grid { grid-template-columns: repeat(2, 1fr); }
+    .calc-container { padding: 20px; }
+}
+
+/* Ensure menu visibility on Desktop if JS state is messy */
+@media (min-width: 993px) {
+    #nav-list { display: block !important; }
+    .menu-toggle { display: none; }
+}
+
+/* --- Pricing Page Refinements --- */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    justify-content: center; /* Centers cards if there are only 1 or 2 */
+}
+
+.price-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the title and button */
+    text-align: center;
+    min-height: 450px;
+}
+
+.pricing-features {
+    list-style: none;
+    margin: 25px 0;
+    padding: 0;
+    text-align: left; /* Keeps text readable */
+    width: 100%;
+}
+
+.pricing-features li {
+    color: var(--text-gray);
+    margin-bottom: 12px;
+    padding-left: 30px;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+/* Custom Gold Checkmarks for the lists */
+.pricing-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 5px;
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.price-card .cost {
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.price-card .pricing-btn {
+    margin-top: auto; /* Pushes button to the bottom so all buttons align */
+}

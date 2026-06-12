@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Planner | KFS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Investment Planning Calculator</h1>
+        <p class="subtitle">Forecast your wealth growth with precision and excellence.</p>
+
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Initial Lumpsum Investment (₹)</label>
+                    <input type="number" id="lumpsum" value="100000">
+                </div>
+                <div class="input-group">
+                    <label>Monthly SIP Amount (₹)</label>
+                    <input type="number" id="monthlySip" value="5000">
+                </div>
+                <div class="input-group">
+                    <label>Investment Period (Years)</label>
+                    <input type="number" id="years" value="10">
+                </div>
+                <div class="input-group">
+                    <label>Expected Annual Return (%)</label>
+                    <input type="number" id="returns" value="12">
+                </div>
+                <button class="calc-btn" onclick="calculateInvestment()">Calculate Wealth</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-item">
+                    <span class="result-label">Total Amount Invested</span>
+                    <strong class="result-value" id="totalInvested">₹ 7,00,000</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Estimated Future Value</span>
+                    <strong class="result-value" id="futureValue">₹ 12,71,249</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Estimated Wealth Gain</span>
+                    <strong class="result-value" id="wealthGain" style="color: #27ae60;">₹ 5,71,249</strong>
+                </div>
+                <p class="disclaimer">*Projections are based on historical performance and do not guarantee future returns.</p>
+            </div>
+        </div>
+
+        
+        
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+    <script>
+        function calculateInvestment() {
+            const P = parseFloat(document.getElementById('lumpsum').value) || 0;
+            const PMT = parseFloat(document.getElementById('monthlySip').value) || 0;
+            const t = parseFloat(document.getElementById('years').value) || 0;
+            const annualRate = parseFloat(document.getElementById('returns').value) || 0;
+            
+            const r = annualRate / 100 / 12;
+            const n = t * 12;
+
+            // Future Value of Lumpsum: FV = P * (1 + r)^n
+            const fvLumpsum = P * Math.pow(1 + r, n);
+
+            // Future Value of SIP: FV = PMT * [((1 + r)^n - 1) / r] * (1 + r)
+            let fvSip = 0;
+            if (r > 0) {
+                fvSip = PMT * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+            } else {
+                fvSip = PMT * n;
+            }
+
+            const totalFV = fvLumpsum + fvSip;
+            const totalPrincipal = P + (PMT * n);
+            const gain = totalFV - totalPrincipal;
+
+            // UI Update
+            document.getElementById('totalInvested').innerText = "₹ " + Math.round(totalPrincipal).toLocaleString('en-IN');
+            document.getElementById('futureValue').innerText = "₹ " + Math.round(totalFV).toLocaleString('en-IN');
+            document.getElementById('wealthGain').innerText = "₹ " + Math.round(gain).toLocaleString('en-IN');
+        }
+    </script>
+</body>
+</html>

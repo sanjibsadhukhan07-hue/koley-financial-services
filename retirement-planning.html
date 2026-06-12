@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Retirement Planner | Koley Financial Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Retirement Planning Calculator</h1>
+        <p>Ensure your future is "Protected by Excellence" with our expert estimation tool.</p>
+
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Current Age</label>
+                    <input type="number" id="currentAge" value="30">
+                </div>
+                <div class="input-group">
+                    <label>Planned Retirement Age</label>
+                    <input type="number" id="retirementAge" value="60">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Expenses Today (₹)</label>
+                    <input type="number" id="monthlyExpenses" value="40000">
+                </div>
+                <div class="input-group">
+                    <label>Expected Inflation (%)</label>
+                    <input type="number" id="inflation" value="6">
+                </div>
+                <div class="input-group">
+                    <label>Post-Retirement Expected Returns (%)</label>
+                    <input type="number" id="postRetireReturns" value="8">
+                </div>
+                <button class="calc-btn" onclick="calculateRetirement()">Generate My Plan</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-item">
+                    <span>Years to Retirement</span>
+                    <strong id="yearsToRetire">30</strong>
+                </div>
+                <div class="result-item">
+                    <span>Monthly Expense at Retirement</span>
+                    <strong id="futureExpense">₹ --</strong>
+                </div>
+                <div class="result-item">
+                    <span>Total Corpus Required</span>
+                    <strong id="requiredCorpus">₹ --</strong>
+                </div>
+                <p class="disclaimer">*Calculated based on 85 years life expectancy and inflation-adjusted withdrawals.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+    <script>
+        function calculateRetirement() {
+            const currentAge = parseFloat(document.getElementById('currentAge').value);
+            const retirementAge = parseFloat(document.getElementById('retirementAge').value);
+            const monthlyExpense = parseFloat(document.getElementById('monthlyExpenses').value);
+            const inflation = parseFloat(document.getElementById('inflation').value) / 100;
+            const postReturns = parseFloat(document.getElementById('postRetireReturns').value) / 100;
+            
+            const yearsToRetire = retirementAge - currentAge;
+            const yearsInRetirement = 85 - retirementAge;
+
+            // Future Value of Expenses
+            const futureMonthlyExpense = monthlyExpense * Math.pow((1 + inflation), yearsToRetire);
+            const annualExpenseAtRetirement = futureMonthlyExpense * 12;
+
+            // Real Rate of Return (Inflation Adjusted)
+            const realRate = (1 + postReturns) / (1 + inflation) - 1;
+
+            // Corpus Calculation (Present Value of Annuity Due)
+            const corpus = annualExpenseAtRetirement * ((1 - Math.pow(1 + realRate, -yearsInRetirement)) / realRate);
+
+            // UI Update
+            document.getElementById('yearsToRetire').innerText = yearsToRetire;
+            document.getElementById('futureExpense').innerText = "₹ " + Math.round(futureMonthlyExpense).toLocaleString('en-IN');
+            document.getElementById('requiredCorpus').innerText = "₹ " + (corpus / 10000000).toFixed(2) + " Crores";
+        }
+        
+        // Initial Calculation
+        window.addEventListener('DOMContentLoaded', calculateRetirement);
+    </script>
+</body>
+</html>

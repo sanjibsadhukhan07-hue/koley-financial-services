@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us | Koley Financial Services</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .contact-info, .contact-form {
+            background: #001d3d;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #c5a059;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: left;
+        }
+        .contact-info h2 { color: #ffc300; margin-bottom: 20px; }
+        .contact-link { color: #fff; text-decoration: none; display: block; margin: 15px 0; font-size: 18px; }
+        .contact-link:hover { color: #c5a059; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #000814; border: 1px solid #c5a059; color: white; border-radius: 5px; }
+        .submit-btn { background: #c5a059; color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 5px; width: 100%; }
+    </style>
+</head>
+<body>
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Get In Touch</h1>
+        <p>"Rooted in Trust • Protected by Excellence"</p>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <p>Feel free to reach out to us for any queries regarding Mutual Funds or Insurance.</p>
+                <a href="tel:9434643120" class="contact-link">📞 +91-9434643120</a>
+                <a href="https://wa.me/919434643120" class="contact-link">💬 WhatsApp Support</a>
+                <p style="margin-top: 20px; color: #c5a059;">Address:</p>
+                <p>Koley Financial Services (KFS)<br>Insurance & Mutual Funds Office</p>
+            </div>
+
+            <div class="contact-form">
+                <h2>Send a Message</h2>
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="How can we help you today?" rows="4"></textarea>
+                    <button type="submit" class="submit-btn">Send Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+</body>
+</html>

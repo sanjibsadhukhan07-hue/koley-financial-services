@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Financial Planning | KFS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Comprehensive Financial Planner</h1>
+        <p class="subtitle">Design a master plan to bridge the gap between where you are and where you want to be.</p>
+
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Financial Goal Target (₹) <small>(Current Value)</small></label>
+                    <input type="number" id="goalAmount" value="5000000">
+                </div>
+                <div class="input-group">
+                    <label>Years to Achieve Goal</label>
+                    <input type="number" id="goalYears" value="15">
+                </div>
+                <div class="input-group">
+                    <label>Expected Inflation (%)</label>
+                    <input type="number" id="inflation" value="6">
+                </div>
+                <div class="input-group">
+                    <label>Current Savings Available (₹)</label>
+                    <input type="number" id="currentSavings" value="200000">
+                </div>
+                <div class="input-group">
+                    <label>Expected Annual Return (%)</label>
+                    <input type="number" id="expectedReturns" value="12">
+                </div>
+                <button class="calc-btn" onclick="calculatePlan()">Generate My Plan</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-item">
+                    <span class="result-label">Inflation Adjusted Goal</span>
+                    <strong class="result-value" id="futureGoalValue">₹ --</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Future Value of Current Savings</span>
+                    <strong class="result-value" id="fvSavings">₹ --</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Required Monthly SIP</span>
+                    <strong class="result-value" id="requiredSIP" style="color: #ffc300;">₹ --</strong>
+                </div>
+                <p class="disclaimer">*Calculations assume monthly compounding of investments and annual compounding of inflation.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+    <script>
+        function calculatePlan() {
+            // Get input values
+            const currentGoal = parseFloat(document.getElementById('goalAmount').value) || 0;
+            const years = parseFloat(document.getElementById('goalYears').value) || 0;
+            const inflation = parseFloat(document.getElementById('inflation').value) / 100 || 0;
+            const savings = parseFloat(document.getElementById('currentSavings').value) || 0;
+            const returns = parseFloat(document.getElementById('expectedReturns').value) / 100 || 0;
+
+            // 1. Calculate Inflation Adjusted Goal: FV = PV * (1 + i)^n
+            const futureGoal = currentGoal * Math.pow(1 + inflation, years);
+
+            // 2. Calculate Future Value of Current Savings: FV = P * (1 + r)^n
+            const fvSavings = savings * Math.pow(1 + returns, years);
+
+            // 3. Gap to be filled by SIP
+            const gap = futureGoal - fvSavings;
+
+            // 4. Required SIP Formula
+            let monthlySip = 0;
+            if (gap > 0) {
+                const rMonthly = returns / 12;
+                const months = years * 12;
+                // Formula: SIP = Gap * (r) / [((1 + r)^n - 1) * (1 + r)]
+                monthlySip = gap * (rMonthly) / ((Math.pow(1 + rMonthly, months) - 1) * (1 + rMonthly));
+            }
+
+            // UI Update with Indian Currency Formatting
+            document.getElementById('futureGoalValue').innerText = "₹ " + Math.round(futureGoal).toLocaleString('en-IN');
+            document.getElementById('fvSavings').innerText = "₹ " + Math.round(fvSavings).toLocaleString('en-IN');
+            document.getElementById('requiredSIP').innerText = "₹ " + (monthlySip > 0 ? Math.round(monthlySip).toLocaleString('en-IN') : "0");
+        }
+    </script>
+</body>
+</html>

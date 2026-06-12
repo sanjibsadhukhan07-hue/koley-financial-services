@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWP Calculator | Koley Financial Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <div class="content-area">
+        <h1>Systematic Withdrawal Plan (SWP)</h1>
+        <p class="subtitle">Plan your monthly pension and track your remaining capital over time.</p>
+
+        <div class="calc-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Total Investment Amount (₹)</label>
+                    <input type="number" id="totalInvestment" value="5000000">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Withdrawal (₹)</label>
+                    <input type="number" id="monthlyWithdrawal" value="30000">
+                </div>
+                <div class="input-group">
+                    <label>Expected Annual Return (%)</label>
+                    <input type="number" id="swpReturns" value="8">
+                </div>
+                <div class="input-group">
+                    <label>Time Period (Years)</label>
+                    <input type="number" id="swpYears" value="10">
+                </div>
+                <button class="calc-btn" onclick="calculateSWP()">Calculate Balance</button>
+            </div>
+
+            <div class="result-section">
+                <div class="result-item">
+                    <span class="result-label">Total Principal Invested</span>
+                    <strong class="result-value" id="resTotalInvested">₹ 50,00,000</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Total Amount Withdrawn</span>
+                    <strong class="result-value" id="resTotalWithdrawn" style="color: #ffc300;">₹ 36,00,000</strong>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Final Balance Remaining</span>
+                    <strong class="result-value" id="resFinalBalance">₹ --</strong>
+                </div>
+                <p class="disclaimer">*Calculations assume returns are compounded monthly. Actual returns may vary based on market performance.</p>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+    <script src="nav.js"></script>
+	<script src="footer.js"></script>
+    <script>
+        function calculateSWP() {
+            const P = parseFloat(document.getElementById('totalInvestment').value) || 0;
+            const W = parseFloat(document.getElementById('monthlyWithdrawal').value) || 0;
+            const annualRate = parseFloat(document.getElementById('swpReturns').value) || 0;
+            const years = parseFloat(document.getElementById('swpYears').value) || 0;
+
+            const r = annualRate / 100 / 12;
+            const n = years * 12;
+
+            // Formula for remaining balance: 
+            // Final Balance = [P * (1+r)^n] - [W * (((1+r)^n - 1) / r)]
+            let finalBalance = 0;
+            if (r > 0) {
+                const growthFactor = Math.pow(1 + r, n);
+                finalBalance = (P * growthFactor) - (W * (growthFactor - 1) / r);
+            } else {
+                finalBalance = P - (W * n);
+            }
+
+            const totalWithdrawn = W * n;
+
+            // UI Update
+            document.getElementById('resTotalInvested').innerText = "₹ " + P.toLocaleString('en-IN');
+            document.getElementById('resTotalWithdrawn').innerText = "₹ " + totalWithdrawn.toLocaleString('en-IN');
+            
+            const balanceElement = document.getElementById('resFinalBalance');
+            if (finalBalance < 0) {
+                balanceElement.innerText = "Capital Exhausted";
+                balanceElement.style.color = "#e74c3c"; // Red if money runs out
+            } else {
+                balanceElement.innerText = "₹ " + Math.round(finalBalance).toLocaleString('en-IN');
+                balanceElement.style.color = "#27ae60"; // Green if capital stays positive
+            }
+        }
+    </script>
+</body>
+</html>
