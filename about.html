@@ -4,57 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Koley Financial Services</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fff; color: var(--text-dark); overflow-x: hidden; }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            background: linear-gradient(120deg, #002060 0%, #003580 55%, #004aaa 100%);
+            padding: 72px 6% 64px;
+            text-align: center;
+        }
+        .page-hero .section-tag { color: var(--orange-light); }
+        .page-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #fff; font-weight: 700; margin-bottom: 16px;
+        }
+        .page-hero p {
+            color: rgba(255,255,255,0.72);
+            font-size: 1.1rem; max-width: 560px; margin: 0 auto;
+        }
+
+        /* ── CONTENT ── */
+        .content-area { padding: 72px 6%; max-width: 1200px; margin: 0 auto; }
+
+        .section-tag {
+            font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 700; color: var(--navy); line-height: 1.25; margin-bottom: 16px;
+        }
+
+        /* Legacy / story */
+        .about-story {
+            display: flex; gap: 56px; align-items: center;
+            flex-wrap: wrap; margin-bottom: 72px;
+        }
+        .about-story-text { flex: 1; min-width: 280px; }
+        .about-story-text p {
+            font-size: 1.05rem; color: var(--text-mid);
+            line-height: 1.8; margin-bottom: 20px;
+        }
+        .about-story-img {
+            flex: 0 0 320px;
+            background: linear-gradient(135deg, var(--navy) 0%, #004aaa 100%);
+            border-radius: 16px; padding: 40px 32px; text-align: center;
+            color: #fff;
+        }
+        .about-story-img .big-num {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 4rem; font-weight: 700; color: var(--orange-light); line-height: 1;
+        }
+        .about-story-img .big-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 8px; margin-bottom: 32px; }
+        .stat-row { display: flex; justify-content: space-around; margin-top: 24px; }
+        .stat-item .s-num { font-size: 1.8rem; font-weight: 700; color: var(--orange-light); }
+        .stat-item .s-lbl { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+        /* Mission / Vision */
+        .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 72px; }
+        .mv-card {
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 32px 28px; position: relative; overflow: hidden;
+        }
+        .mv-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--orange);
+        }
+        .mv-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+        .mv-card p { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+        /* Why us */
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 72px; }
+        .why-card {
+            background: var(--off-white); border-radius: 12px;
+            padding: 28px 24px; text-align: center;
+        }
+        .why-ico { font-size: 32px; margin-bottom: 16px; }
+        .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+        .why-card p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        /* Advisor */
+        .advisor-section {
+            background: linear-gradient(120deg, var(--navy) 0%, #004aaa 100%);
+            border-radius: 16px; padding: 56px;
+            display: flex; gap: 48px; align-items: center; flex-wrap: wrap;
+            margin-bottom: 72px;
+        }
+        .advisor-photo-wrap { flex: 0 0 260px; position: relative; }
+        .advisor-photo-wrap img {
+            width: 260px; height: 320px; object-fit: cover;
+            border-radius: 12px; border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        }
+        .advisor-badge-abs {
+            position: absolute; bottom: -14px; right: -14px;
+            background: var(--orange); color: #fff;
+            padding: 10px 14px; border-radius: 8px;
+            font-size: 11px; font-weight: 700;
+            text-align: center; line-height: 1.3;
+        }
+        .advisor-body { flex: 1; min-width: 260px; }
+        .advisor-body .section-tag { color: var(--orange-light); }
+        .advisor-name-lg {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.2rem; color: #fff; font-weight: 700; margin-bottom: 6px;
+        }
+        .advisor-role-sm { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+        .advisor-body p { font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.75; margin-bottom: 24px; }
+        .cert-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+        .cert-chip {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 14px; border-radius: 20px;
+            font-size: 12px; font-weight: 600; color: #fff;
+        }
+        .btn-primary {
+            background: var(--orange); color: #fff;
+            padding: 12px 28px; border-radius: 6px;
+            font-weight: 700; font-size: 14px;
+            text-decoration: none; display: inline-block; transition: 0.2s;
+        }
+        .btn-primary:hover { background: #c94e00; transform: translateY(-2px); }
+
+        /* CTA */
+        .cta-strip {
+            background: linear-gradient(120deg, var(--orange) 0%, #c94e00 100%);
+            border-radius: 16px; padding: 56px; text-align: center;
+        }
+        .cta-strip h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem; color: #fff; margin-bottom: 12px; font-weight: 700;
+        }
+        .cta-strip p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 28px; }
+        .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn-white {
+            background: #fff; color: var(--orange);
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 700; font-size: 14px;
+            text-decoration: none; transition: 0.2s;
+        }
+        .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .cta-btn-ghost {
+            background: transparent; color: #fff;
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 600; font-size: 14px;
+            text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); transition: 0.2s;
+        }
+        .cta-btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+        @media(max-width:900px) {
+            .about-story { flex-direction: column; }
+            .about-story-img { flex: none; width: 100%; }
+            .mv-grid { grid-template-columns: 1fr; }
+            .advisor-section { padding: 32px; flex-direction: column; }
+            .advisor-photo-wrap img { width: 100%; height: 260px; }
+        }
+    </style>
 </head>
 <body>
 
-    <header id="main-header"></header>
+    <!-- Nav injected by nav.js -->
 
-    <div class="content-area">
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="section-tag">Who We Are</div>
         <h1>About Koley Financial Services</h1>
-        <p class="subtitle">Rooted in Trust • Protected by Excellence</p>
+        <p>Rooted in Trust • Protected by Excellence — a decade of honest financial guidance for families across Hooghly.</p>
+    </div>
 
-        <div class="about-wrapper">
-            <section class="about-card">
-                <div class="about-text">
-                    <h2>Our Legacy</h2>
-                    <p>Founded on the principle of financial integrity, Koley Financial Services (KFS) provides expert Mutual Fund and Insurance advice tailored to your unique life goals. We believe that financial planning is not just about numbers; it's about securing your family's future and growing your hard-earned wealth with wisdom.</p>
-                </div>
-            </section>
+    <!-- Main content -->
+    <div class="content-area">
 
-            <div class="about-grid">
-                <div class="info-card">
-                    <h3>Our Mission</h3>
-                    <p>To empower individuals with transparent, data-driven financial strategies that turn aspirations into reality.</p>
-                </div>
-                <div class="info-card">
-                    <h3>Our Vision</h3>
-                    <p>To be the most trusted name in wealth management, recognized for our commitment to excellence and client-first approach.</p>
+        <!-- Our Legacy -->
+        <div class="about-story">
+            <div class="about-story-text">
+                <div class="section-tag">Our Legacy</div>
+                <h2 class="section-title">Built on Integrity,<br>Driven by Your Goals</h2>
+                <p>Founded on the principle of financial integrity, Koley Financial Services (KFS) provides expert Mutual Fund and Insurance advice tailored to your unique life goals. We believe that financial planning is not just about numbers — it's about securing your family's future and growing your hard-earned wealth with wisdom.</p>
+                <p>Over 12+ years, Avijit Koley has personally guided 500+ families across Hooghly and West Bengal, always with transparency and a client-first mindset — never driven by product commissions.</p>
+            </div>
+            <div class="about-story-img">
+                <div class="big-num">12+</div>
+                <div class="big-label">Years of Trusted Service</div>
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <div class="s-num">500+</div>
+                        <div class="s-lbl">Families Advised</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="s-num">₹50Cr+</div>
+                        <div class="s-lbl">AUM Managed</div>
+                    </div>
                 </div>
             </div>
-
-            <section class="values-section">
-                <h2>Why Partner With Us?</h2>
-                <div class="pricing-grid"> <div class="price-card">
-                        <h3>Expert Advice</h3>
-                        <p>Navigating the complex world of Mutual Funds and Insurance with certified expertise.</p>
-                    </div>
-                    <div class="price-card">
-                        <h3>Trust Centric</h3>
-                        <p>Every recommendation we make is "Rooted in Trust," ensuring your interests always come first.</p>
-                    </div>
-                    <div class="price-card">
-                        <h3>Client Protection</h3>
-                        <p>We provide comprehensive insurance audits to ensure you are "Protected by Excellence."</p>
-                    </div>
-                </div>
-            </section>
         </div>
-        
-        <a href="contact.html" class="pricing-btn" style="max-width: 300px; margin: 40px auto;">Start Your Journey With Us</a>
+
+        <!-- Mission & Vision -->
+        <div class="section-tag">Our Purpose</div>
+        <h2 class="section-title" style="margin-bottom:32px">Mission & Vision</h2>
+        <div class="mv-grid">
+            <div class="mv-card">
+                <h3>🎯 Our Mission</h3>
+                <p>To empower individuals with transparent, data-driven financial strategies that turn aspirations into reality — without ever compromising your trust.</p>
+            </div>
+            <div class="mv-card">
+                <h3>🔭 Our Vision</h3>
+                <p>To be the most trusted name in wealth management in West Bengal, recognized for our commitment to excellence and an uncompromising client-first approach.</p>
+            </div>
+        </div>
+
+        <!-- Why us -->
+        <div class="section-tag">Why Partner With Us</div>
+        <h2 class="section-title" style="margin-bottom:32px">The KFS Difference</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-ico">🏅</div>
+                <h3>Expert Advice</h3>
+                <p>AMFI-registered and IRDAI-licensed — navigating Mutual Funds and Insurance with certified expertise you can rely on.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-ico">🤝</div>
+                <h3>Trust Centric</h3>
+                <p>Every recommendation is "Rooted in Trust" — your interests always come first, never product commissions.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-ico">🛡️</div>
+                <h3>Client Protection</h3>
+                <p>Comprehensive insurance audits and coverage gap analysis ensure you are "Protected by Excellence."</p>
+            </div>
+            <div class="why-card">
+                <div class="why-ico">📊</div>
+                <h3>Data Driven</h3>
+                <p>Every strategy is backed by numbers, market research, and your personal risk profile — not guesswork.</p>
+            </div>
+        </div>
+
+        <!-- Advisor -->
+        <div class="advisor-section">
+            <div class="advisor-photo-wrap">
+                <img src="owner_photo.jpg" alt="Avijit Koley - Financial Advisor">
+                <div class="advisor-badge-abs">⭐ Award<br>Winning<br>Advisor</div>
+            </div>
+            <div class="advisor-body">
+                <div class="section-tag">Your Advisor</div>
+                <div class="advisor-name-lg">Avijit Koley</div>
+                <div class="advisor-role-sm">Financial Adviser &amp; Insurance Consultant · Kaikala, Hooghly</div>
+                <p>With over a decade of hands-on experience in mutual funds and insurance, Avijit has guided 500+ families in Hooghly and beyond toward financial independence. His advice is always rooted in data, transparency, and your long-term well-being — never product commission.</p>
+                <div class="cert-chips">
+                    <span class="cert-chip">✅ AMFI Registered Distributor</span>
+                    <span class="cert-chip">✅ IRDAI Licensed Advisor</span>
+                    <span class="cert-chip">🏆 HDFC ERGO Excellence Award</span>
+                </div>
+                <a href="contact.html" class="btn-primary">Connect with Avijit →</a>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-strip">
+            <h2>Start Your Financial Journey Today</h2>
+            <p>Book a free 30-minute consultation — no obligations, just honest advice tailored to your goals.</p>
+            <div class="cta-btns">
+                <a href="contact.html" class="cta-btn-white">Book Free Consultation</a>
+                <a href="tel:9434643120" class="cta-btn-ghost">📞 Call: 94346 43120</a>
+            </div>
+        </div>
+
     </div>
 
     <script src="nav.js"></script>
-	<script src="footer.js"></script>
+    <script src="footer.js"></script>
 </body>
 </html>

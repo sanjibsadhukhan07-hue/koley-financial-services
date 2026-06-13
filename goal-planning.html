@@ -4,239 +4,722 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goal Planner | Koley Financial Services</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* Specific Styles for Goal Planner Layout */
-        .calc-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 30px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #fff;
+            color: var(--text-dark, #0d1b2e);
+            overflow-x: hidden;
         }
 
-        .input-section, .result-section {
-            background: #001d3d;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #c5a059;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            color: #ffc300;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            background: #000814;
-            border: 1px solid rgba(197, 160, 89, 0.5);
-            color: white;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .calc-btn {
-            background: #ffc300;
-            color: #000;
-            border: none;
-            padding: 15px 25px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 6px;
-            width: 100%;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        .calc-btn:hover {
-            background: #e6b000;
-            transform: translateY(-2px);
-        }
-
-        .calc-btn.outline {
-            background: transparent;
-            color: #ffc300;
-            border: 2px solid #ffc300;
-            margin-top: 15px;
-        }
-
-        .result-box {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* ── PAGE HERO ── */
+        .page-hero {
+            background: linear-gradient(120deg, #002060 0%, #003580 55%, #004aaa 100%);
+            padding: 72px 6% 64px;
             text-align: center;
         }
-
-        .result-item {
-            margin-bottom: 20px;
+        .page-hero .section-tag { color: var(--orange-light, #ff7a1a); }
+        .page-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 16px;
         }
-
-        .result-label {
-            display: block;
-            color: #ccc;
+        .page-hero p {
+            color: rgba(255,255,255,0.72);
             font-size: 1.1rem;
-            margin-bottom: 10px;
+            max-width: 560px;
+            margin: 0 auto;
         }
 
-        .result-value {
-            font-size: 2.5rem;
-            color: #ffc300;
-            font-weight: bold;
+        /* ── SHARED TAGS / TITLES ── */
+        .section-tag {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--orange, #E85D04);
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--navy, #003580);
+            line-height: 1.25;
+            margin-bottom: 8px;
         }
 
-        .info-text {
-            color: #888;
-            font-size: 0.85rem;
-            margin-top: 10px;
-            line-height: 1.4;
+        /* ── MAIN CONTENT ── */
+        .content-area {
+            padding: 64px 6% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ── PLANNER GRID ── */
+        .planner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        /* ── INPUT CARD ── */
+        .input-card {
+            background: #fff;
+            border: 1px solid rgba(0,53,128,0.12);
+            border-radius: 16px;
+            padding: 36px 32px;
+            box-shadow: 0 4px 20px rgba(0,32,96,0.06);
+        }
+        .input-card .card-heading {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy, #003580);
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0,53,128,0.10);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-card .card-heading .icon {
+            width: 36px; height: 36px;
+            background: rgba(232,93,4,0.08);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px;
+        }
+
+        .input-group { margin-bottom: 22px; }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        .input-wrap { position: relative; }
+        .input-wrap .prefix {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 14px; font-weight: 600; color: #8a9ab0;
+            pointer-events: none;
+        }
+        .input-wrap .suffix {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 13px; font-weight: 600; color: #8a9ab0;
+            pointer-events: none;
+        }
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 12px 40px 12px 34px;
+            border: 1.5px solid rgba(0,53,128,0.15);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #0d1b2e;
+            background: #f8fafc;
+            transition: 0.2s;
+            -moz-appearance: textfield;
+        }
+        .input-group input[type="number"]::-webkit-inner-spin-button,
+        .input-group input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+        .input-group input[type="number"]:focus {
+            outline: none;
+            border-color: var(--orange, #E85D04);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(232,93,4,0.10);
+        }
+        .input-group input.no-prefix { padding-left: 14px; }
+
+        /* Slider */
+        .slider-row { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+        .slider-row input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: linear-gradient(to right, var(--orange, #E85D04) 0%, var(--orange, #E85D04) var(--fill, 50%), #e2e8f0 var(--fill, 50%), #e2e8f0 100%);
+            outline: none; cursor: pointer;
+        }
+        .slider-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: var(--orange, #E85D04);
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(232,93,4,0.35);
+            cursor: pointer;
+        }
+        .slider-val {
+            min-width: 48px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--orange, #E85D04);
+            background: rgba(232,93,4,0.08);
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+
+        .calc-btn-main {
+            width: 100%;
+            background: var(--orange, #E85D04);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+        }
+        .calc-btn-main:hover {
+            background: #c94e00;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232,93,4,0.25);
+        }
+
+        /* ── RESULT CARD ── */
+        .result-card {
+            background: linear-gradient(145deg, #002060 0%, #003d99 100%);
+            border-radius: 16px;
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .result-card::before {
+            content: '';
+            position: absolute; top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+        .result-card::after {
+            content: '';
+            position: absolute; bottom: -40px; left: -40px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(255,122,26,0.08);
+        }
+
+        .result-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,122,26,0.9);
+            margin-bottom: 6px;
+        }
+        .result-title {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 28px;
+        }
+
+        .sip-display {
+            text-align: center;
+            padding: 28px 20px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.10);
+            margin-bottom: 28px;
+            position: relative; z-index: 1;
+        }
+        .sip-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .sip-amount {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .sip-amount span { color: var(--orange-light, #ff7a1a); font-size: 0.6em; vertical-align: super; }
+        .sip-note {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 28px;
+            position: relative; z-index: 1;
+        }
+        .breakdown-item {
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .breakdown-item .b-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .breakdown-item .b-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .breakdown-item .b-val.highlight { color: var(--orange-light, #ff7a1a); }
+
+        /* Progress bar */
+        .progress-wrap { margin-bottom: 28px; position: relative; z-index: 1; }
+        .progress-labels {
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: rgba(255,255,255,0.45);
+            margin-bottom: 8px;
+        }
+        .progress-bar-bg {
+            height: 8px; border-radius: 4px;
+            background: rgba(255,255,255,0.10);
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, var(--orange-light, #ff7a1a), #ffad66);
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+
+        .download-btn {
+            width: 100%;
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.25);
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative; z-index: 1;
+            display: none;
+        }
+        .download-btn:hover {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.08);
+        }
+        .download-btn.visible { display: block; }
+
+        /* ── HOW IT WORKS ── */
+        .how-section { margin-top: 72px; }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .step-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 28px 24px;
+            position: relative;
+        }
+        .step-num {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(0,53,128,0.08);
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        .step-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy, #003580);
+            margin-bottom: 8px;
+        }
+        .step-card p {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.65;
+        }
+
+        /* ── CTA STRIP ── */
+        .cta-strip {
+            background: linear-gradient(120deg, var(--orange, #E85D04) 0%, #c94e00 100%);
+            border-radius: 16px;
+            padding: 56px;
+            text-align: center;
+            margin-top: 72px;
+        }
+        .cta-strip h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        .cta-strip p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 28px; }
+        .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn-white {
+            background: #fff; color: var(--orange, #E85D04);
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 700; font-size: 14px;
+            text-decoration: none; transition: 0.2s;
+        }
+        .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .cta-btn-ghost {
+            background: transparent; color: #fff;
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 600; font-size: 14px;
+            text-decoration: none;
+            border: 1.5px solid rgba(255,255,255,0.5); transition: 0.2s;
+        }
+        .cta-btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .planner-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .cta-strip { padding: 36px 24px; }
+        }
+        @media (max-width: 600px) {
+            .breakdown-grid { grid-template-columns: 1fr; }
+            .content-area { padding: 40px 5% 60px; }
         }
     </style>
 </head>
 <body>
-    <header id="main-header"></header>
 
+    <!-- Nav injected by nav.js -->
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="section-tag">Financial Tools</div>
+        <h1>Goal Planning Calculator</h1>
+        <p>Find out exactly how much to invest every month to turn your financial goals into reality.</p>
+    </div>
+
+    <!-- Main Content -->
     <div class="content-area">
-        <h1>Goal Planning Tool</h1>
-        <p class="subtitle">Calculate the monthly investment required to reach your target.</p>
-        
-        <div class="calc-container">
-            <div class="input-section">
-                <div class="input-group">
-                    <label>Target Goal Amount (₹)</label>
-                    <input type="number" id="targetAmount" value="1000000">
+
+        <div class="section-tag">Plan Your Future</div>
+        <h2 class="section-title">What's Your Goal?</h2>
+        <p style="color:#4a5568;font-size:1rem;margin-bottom:0;max-width:520px;">Enter your target, timeline, and expected return — we'll calculate the monthly SIP you need.</p>
+
+        <div class="planner-grid">
+
+            <!-- INPUT CARD -->
+            <div class="input-card">
+                <div class="card-heading">
+                    <div class="icon">🎯</div>
+                    Your Goal Details
                 </div>
+
+                <div class="input-group">
+                    <label>Target Goal Amount</label>
+                    <div class="input-wrap">
+                        <span class="prefix">₹</span>
+                        <input type="number" id="targetAmount" value="1000000" oninput="calculateGoal()">
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <label>Years to Achieve Goal</label>
-                    <input type="number" id="goalYears" value="10">
+                    <div class="slider-row">
+                        <input type="range" id="goalYearsSlider" min="1" max="40" value="10"
+                               oninput="syncSlider('goalYearsSlider','goalYears','goalYearsVal','',20); calculateGoal()">
+                        <span class="slider-val" id="goalYearsVal">10 yrs</span>
+                    </div>
+                    <div class="input-wrap" style="margin-top:10px;">
+                        <input type="number" id="goalYears" value="10" class="no-prefix"
+                               style="padding-left:14px;padding-right:50px;"
+                               oninput="syncInput('goalYears','goalYearsSlider','goalYearsVal','',20); calculateGoal()">
+                        <span class="suffix">yrs</span>
+                    </div>
                 </div>
+
                 <div class="input-group">
-                    <label>Expected Return (%)</label>
-                    <input type="number" id="goalReturns" value="12">
+                    <label>Expected Annual Return</label>
+                    <div class="slider-row">
+                        <input type="range" id="goalReturnsSlider" min="1" max="30" value="12"
+                               oninput="syncSlider('goalReturnsSlider','goalReturns','goalReturnsVal','%',30); calculateGoal()">
+                        <span class="slider-val" id="goalReturnsVal">12%</span>
+                    </div>
+                    <div class="input-wrap" style="margin-top:10px;">
+                        <input type="number" id="goalReturns" value="12" class="no-prefix"
+                               style="padding-left:14px;padding-right:40px;"
+                               oninput="syncInput('goalReturns','goalReturnsSlider','goalReturnsVal','%',30); calculateGoal()">
+                        <span class="suffix">%</span>
+                    </div>
                 </div>
-                <button class="calc-btn" onclick="calculateGoal()">Plan My Goal</button>
+
+                <button class="calc-btn-main" onclick="calculateGoal()">Calculate My SIP →</button>
             </div>
 
-            <div class="result-section">
-                <div class="result-box">
-                    <div class="result-item">
-                        <span class="result-label">Required Monthly SIP</span>
-                        <div class="result-value" id="requiredSip">₹ 4,304</div>
+            <!-- RESULT CARD -->
+            <div class="result-card">
+                <div class="result-tag">Your Plan</div>
+                <div class="result-title">Monthly investment required</div>
+
+                <div class="sip-display">
+                    <div class="sip-label">REQUIRED MONTHLY SIP</div>
+                    <div class="sip-amount" id="sipDisplay"><span>₹</span> <span id="sipValue">4,304</span></div>
+                    <div class="sip-note">per month via Systematic Investment Plan</div>
+                </div>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <div class="b-label">TOTAL INVESTED</div>
+                        <div class="b-val" id="totalInvested">₹5.16L</div>
                     </div>
-                    <p class="info-text">Based on your inputs, this is the amount you need to save monthly to meet your goal.</p>
-                    <div id="downloadArea"></div>
+                    <div class="breakdown-item">
+                        <div class="b-label">WEALTH GAINED</div>
+                        <div class="b-val highlight" id="wealthGained">₹4.84L</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="b-label">GOAL AMOUNT</div>
+                        <div class="b-val" id="goalAmount">₹10L</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="b-label">RETURN MULTIPLE</div>
+                        <div class="b-val highlight" id="returnMultiple">1.94×</div>
+                    </div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-labels">
+                        <span>Amount Invested</span>
+                        <span>Wealth Gained</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <button class="download-btn" id="downloadBtn" onclick="generatePDF()">
+                    ⬇ Download Personalised Report (PDF)
+                </button>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="how-section">
+            <div class="section-tag">How It Works</div>
+            <h2 class="section-title">Simple. Transparent. Powerful.</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h3>Set Your Goal</h3>
+                    <p>Enter the amount you want to accumulate — whether it's a home down payment, your child's education, or retirement corpus.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h3>Define Your Timeline</h3>
+                    <p>Choose how many years you have. The earlier you start, the lower your monthly commitment thanks to the power of compounding.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h3>Invest Consistently</h3>
+                    <p>Start a SIP for the calculated amount. Avijit will help you pick the right funds to target your expected return with managed risk.</p>
                 </div>
             </div>
         </div>
+
+        <!-- CTA -->
+        <div class="cta-strip">
+            <h2>Ready to Start Investing?</h2>
+            <p>Book a free 30-minute session — Avijit will review your goals and recommend the right funds personally.</p>
+            <div class="cta-btns">
+                <a href="contact.html" class="cta-btn-white">Book Free Consultation</a>
+                <a href="tel:9434643120" class="cta-btn-ghost">📞 Call: 94346 43120</a>
+            </div>
+        </div>
+
     </div>
 
     <script src="nav.js"></script>
     <script src="footer.js"></script>
 
     <script>
-        // Calculation logic
-        function calculateGoal() {
-            const fv = parseFloat(document.getElementById('targetAmount').value);
-            const years = parseFloat(document.getElementById('goalYears').value);
-            const r = parseFloat(document.getElementById('goalReturns').value) / 100 / 12;
-            const n = years * 12;
-            
-            // Formula for SIP required to reach a Future Value
-            const sip = fv / (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
-            const result = Math.round(sip);
-            
-            document.getElementById('requiredSip').innerText = "₹ " + result.toLocaleString('en-IN');
-            
-            // Show Download Button
-            const downloadArea = document.getElementById('downloadArea');
-            downloadArea.innerHTML = `<button class="calc-btn outline" onclick="generatePDF()">Download Report (PDF)</button>`;
+        /* ── SLIDER ↔ INPUT SYNC ── */
+        function syncSlider(sliderId, inputId, valId, suffix, max) {
+            const v = parseFloat(document.getElementById(sliderId).value);
+            document.getElementById(inputId).value = v;
+            document.getElementById(valId).textContent = v + (suffix || ' yrs');
+            updateSliderFill(sliderId, v, max);
+        }
+        function syncInput(inputId, sliderId, valId, suffix, max) {
+            const v = parseFloat(document.getElementById(inputId).value) || 0;
+            const clamped = Math.min(v, max);
+            document.getElementById(sliderId).value = clamped;
+            document.getElementById(valId).textContent = clamped + (suffix || ' yrs');
+            updateSliderFill(sliderId, clamped, max);
+        }
+        function updateSliderFill(sliderId, val, max) {
+            const pct = (val / max) * 100;
+            document.getElementById(sliderId).style.setProperty('--fill', pct + '%');
         }
 
-        // PDF Generation Logic
+        /* ── FORMAT ── */
+        function formatINR(n) {
+            if (n >= 1e7) return '₹' + (n / 1e7).toFixed(2) + 'Cr';
+            if (n >= 1e5) return '₹' + (n / 1e5).toFixed(2) + 'L';
+            return '₹' + Math.round(n).toLocaleString('en-IN');
+        }
+        function formatSIP(n) {
+            return Math.round(n).toLocaleString('en-IN');
+        }
+
+        /* ── CALCULATE ── */
+        function calculateGoal() {
+            const fv   = parseFloat(document.getElementById('targetAmount').value) || 0;
+            const years= parseFloat(document.getElementById('goalYears').value)    || 1;
+            const rate = parseFloat(document.getElementById('goalReturns').value)  || 1;
+
+            const r = rate / 100 / 12;
+            const n = years * 12;
+            const sip = fv / (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+
+            const totalInvested = sip * n;
+            const wealthGained  = fv - totalInvested;
+            const multiple      = fv / totalInvested;
+
+            document.getElementById('sipValue').textContent = formatSIP(sip);
+            document.getElementById('totalInvested').textContent = formatINR(totalInvested);
+            document.getElementById('wealthGained').textContent  = formatINR(wealthGained);
+            document.getElementById('goalAmount').textContent    = formatINR(fv);
+            document.getElementById('returnMultiple').textContent = multiple.toFixed(2) + '×';
+
+            const investPct = Math.round((totalInvested / fv) * 100);
+            document.getElementById('progressFill').style.width = investPct + '%';
+
+            document.getElementById('downloadBtn').classList.add('visible');
+
+            // Keep slider labels in sync when typing in number box
+            updateSliderFill('goalYearsSlider', years, 40);
+            updateSliderFill('goalReturnsSlider', rate, 30);
+            document.getElementById('goalYearsVal').textContent   = years + ' yrs';
+            document.getElementById('goalReturnsVal').textContent = rate + '%';
+        }
+
+        /* ── PDF REPORT ── */
         async function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            // Ask for Customer Name
+
             const userName = prompt("Enter your name for the report:", "Valued Client");
             if (userName === null) return;
 
-            const target = document.getElementById('targetAmount').value;
-            const years = document.getElementById('goalYears').value;
+            const target  = parseFloat(document.getElementById('targetAmount').value);
+            const years   = document.getElementById('goalYears').value;
             const returns = document.getElementById('goalReturns').value;
-            const sipAmount = document.getElementById('requiredSip').innerText;
+            const sip     = document.getElementById('sipValue').textContent;
+            const total   = document.getElementById('totalInvested').textContent;
+            const gained  = document.getElementById('wealthGained').textContent;
+            const mult    = document.getElementById('returnMultiple').textContent;
 
-            // Header Section
-            doc.setFillColor(0, 53, 102); // Navy Blue
-            doc.rect(0, 0, 210, 40, 'F');
-            
-            doc.setTextColor(255, 195, 0); // Gold
-            doc.setFontSize(22);
-            doc.text("KOLEY FINANCIAL SERVICES", 105, 20, { align: "center" });
-            
-            doc.setFontSize(10);
-            doc.setTextColor(255, 255, 255);
-            doc.text("Rooted in Trust • Protected by Excellence", 105, 28, { align: "center" });
+            // Navy header
+            doc.setFillColor(0, 32, 96);
+            doc.rect(0, 0, 210, 42, 'F');
 
-            // Report Content
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(16);
-            doc.text(`Personalized Goal Plan for: ${userName}`, 20, 60);
-            
-            doc.setDrawColor(197, 160, 89); // Gold line
-            doc.line(20, 65, 190, 65);
+            doc.setFontSize(20); doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 122, 26);
+            doc.text("KOLEY FINANCIAL SERVICES", 105, 18, { align: "center" });
 
-            doc.setFontSize(12);
-            doc.text(`Target Goal Amount:`, 20, 85);
-            doc.text(`INR ${parseFloat(target).toLocaleString('en-IN')}`, 140, 85);
+            doc.setFontSize(9); doc.setFont(undefined, 'normal');
+            doc.setTextColor(200, 214, 232);
+            doc.text("Rooted in Trust • Protected by Excellence", 105, 27, { align: "center" });
+            doc.text("AMFI Registered Distributor | IRDAI Licensed Advisor", 105, 34, { align: "center" });
 
-            doc.text(`Planning Duration:`, 20, 95);
-            doc.text(`${years} Years`, 140, 95);
+            // Title
+            doc.setTextColor(0, 53, 128); doc.setFontSize(16); doc.setFont(undefined, 'bold');
+            doc.text("Personalised Goal Plan", 20, 58);
+            doc.setFontSize(11); doc.setFont(undefined, 'normal'); doc.setTextColor(74, 85, 104);
+            doc.text(`Prepared for: ${userName}`, 20, 67);
+            doc.setDrawColor(232, 93, 4); doc.setLineWidth(0.6);
+            doc.line(20, 72, 190, 72);
 
-            doc.text(`Expected Rate of Return:`, 20, 105);
-            doc.text(`${returns}% p.a.`, 140, 105);
+            // Inputs
+            doc.setFontSize(12); doc.setFont(undefined, 'bold'); doc.setTextColor(0, 32, 96);
+            doc.text("Your Goal Parameters", 20, 86);
+            doc.setFont(undefined, 'normal'); doc.setFontSize(11); doc.setTextColor(74, 85, 104);
+            const rows = [
+                ["Target Goal Amount", "₹ " + target.toLocaleString('en-IN')],
+                ["Planning Duration", years + " years"],
+                ["Expected Rate of Return", returns + "% per annum"],
+            ];
+            rows.forEach(([label, val], i) => {
+                const y = 96 + i * 10;
+                doc.text(label, 25, y);
+                doc.setTextColor(0, 32, 96); doc.setFont(undefined, 'bold');
+                doc.text(val, 140, y);
+                doc.setFont(undefined, 'normal'); doc.setTextColor(74, 85, 104);
+            });
 
-            // Highlighted Result Box
-            doc.setFillColor(245, 245, 245);
-            doc.rect(20, 115, 170, 25, 'F');
-            doc.setFontSize(14);
-            doc.setFont(undefined, 'bold');
-            doc.text(`Recommended Monthly SIP:`, 30, 131);
-            doc.setTextColor(0, 53, 102);
-            doc.text(`${sipAmount}`, 140, 131);
+            // Result box
+            doc.setFillColor(0, 32, 96);
+            doc.roundedRect(20, 130, 170, 32, 4, 4, 'F');
+            doc.setFontSize(13); doc.setFont(undefined, 'normal'); doc.setTextColor(200, 214, 232);
+            doc.text("Recommended Monthly SIP:", 30, 148);
+            doc.setFontSize(16); doc.setFont(undefined, 'bold'); doc.setTextColor(255, 122, 26);
+            doc.text("₹ " + sip, 140, 149);
 
-            // Contact & Disclaimer
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(9);
-            doc.setTextColor(100, 100, 100);
-            const disclaimer = "Note: Mutual Fund investments are subject to market risks. This report is an estimate based on your inputs and does not guarantee actual returns. Past performance is not indicative of future results.";
-            const splitDisclaimer = doc.splitTextToSize(disclaimer, 170);
-            doc.text(splitDisclaimer, 20, 160);
+            // Summary grid
+            doc.setFontSize(12); doc.setFont(undefined, 'bold'); doc.setTextColor(0, 32, 96);
+            doc.text("Wealth Summary", 20, 178);
+            const summaryRows = [
+                ["Total Amount Invested", total],
+                ["Estimated Wealth Gained", gained],
+                ["Return Multiple", mult],
+            ];
+            doc.setFont(undefined, 'normal'); doc.setFontSize(11);
+            summaryRows.forEach(([label, val], i) => {
+                const y = 188 + i * 10;
+                doc.setTextColor(74, 85, 104); doc.text(label, 25, y);
+                doc.setTextColor(232, 93, 4); doc.setFont(undefined, 'bold');
+                doc.text(val, 140, y);
+                doc.setFont(undefined, 'normal');
+            });
 
-            doc.setTextColor(0, 53, 102);
-            doc.setFontSize(10);
-            doc.text("Consultant: Avijit Koley | Contact: +91 94346 43120", 105, 280, { align: "center" });
-            doc.text("Koley Financial Services - Kolkata", 105, 286, { align: "center" });
+            // Disclaimer
+            doc.setFontSize(8.5); doc.setTextColor(150, 150, 150); doc.setFont(undefined, 'normal');
+            const disc = "Disclaimer: Mutual Fund investments are subject to market risks. Past performance is not indicative of future results. This report is illustrative and does not constitute financial advice. Returns are not guaranteed. Please read all scheme-related documents carefully before investing.";
+            doc.text(doc.splitTextToSize(disc, 170), 20, 230);
 
-            // Save PDF
-            doc.save(`KFS_Plan_${userName.replace(/\s+/g, '_')}.pdf`);
+            // Footer
+            doc.setFillColor(245, 247, 250);
+            doc.rect(0, 275, 210, 22, 'F');
+            doc.setFontSize(9); doc.setTextColor(0, 53, 128); doc.setFont(undefined, 'bold');
+            doc.text("Avijit Koley | +91-94346 43120 | Kaikala, Haripal, Hooghly, WB", 105, 284, { align: "center" });
+            doc.setFont(undefined, 'normal'); doc.setTextColor(150, 150, 150);
+            doc.text("www.koleyfinancial.com", 105, 291, { align: "center" });
+
+            doc.save(`KFS_GoalPlan_${userName.replace(/\s+/g, '_')}.pdf`);
         }
+
+        /* ── INIT ── */
+        window.addEventListener('DOMContentLoaded', function () {
+            updateSliderFill('goalYearsSlider',   10, 40);
+            updateSliderFill('goalReturnsSlider', 12, 30);
+            calculateGoal();
+        });
     </script>
 </body>
 </html>

@@ -2,16 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing & Services | Koley Financial Services</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fff; color: var(--text-dark); overflow-x: hidden; }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            background: linear-gradient(120deg, #002060 0%, #003580 55%, #004aaa 100%);
+            padding: 72px 6% 64px;
+            text-align: center;
+        }
+        .page-hero .section-tag { color: var(--orange-light); }
+        .page-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #fff; font-weight: 700; margin-bottom: 16px;
+        }
+        .page-hero p { color: rgba(255,255,255,0.72); font-size: 1.1rem; max-width: 560px; margin: 0 auto; }
+
+        /* ── SHARED ── */
+        .content-area { padding: 72px 6%; max-width: 1200px; margin: 0 auto; }
+        .section-tag {
+            font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 700; color: var(--navy); line-height: 1.25; margin-bottom: 16px;
+        }
+        .section-sub { font-size: 1.05rem; color: var(--text-mid); line-height: 1.7; max-width: 600px; margin: 0 auto 48px; text-align: center; }
+
+        /* ── PRICING CARDS ── */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; margin-bottom: 72px; }
+        .price-card {
+            border: 1px solid var(--border);
+            border-radius: 14px; padding: 36px 30px;
+            position: relative; overflow: hidden; transition: 0.25s;
+            display: flex; flex-direction: column;
+        }
+        .price-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: var(--orange); transform: scaleX(0); transform-origin: left; transition: 0.3s;
+        }
+        .price-card:hover { box-shadow: 0 16px 40px rgba(0,32,96,0.12); transform: translateY(-5px); border-color: rgba(232,93,4,0.25); }
+        .price-card:hover::before { transform: scaleX(1); }
+        .price-card h2 { font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+        .price-card .cost {
+            display: inline-block;
+            font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+            text-transform: uppercase; color: var(--orange);
+            background: rgba(232,93,4,0.08); padding: 6px 14px; border-radius: 20px;
+            margin-bottom: 24px; width: fit-content;
+        }
+        .pricing-features { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; flex: 1; }
+        .pricing-features li {
+            font-size: 14px; color: var(--text-mid);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pricing-features li::before {
+            content: '✓'; color: var(--orange); font-weight: 700; font-size: 14px; flex-shrink: 0;
+        }
+        .pricing-btn {
+            background: var(--orange); color: #fff;
+            padding: 12px 28px; border-radius: 6px;
+            font-weight: 700; font-size: 14px;
+            text-decoration: none; display: inline-block; text-align: center;
+            transition: 0.2s;
+        }
+        .pricing-btn:hover { background: #c94e00; transform: translateY(-2px); }
+
+        /* ── DISCLAIMER ── */
+        .pricing-note {
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 28px 32px; background: var(--off-white);
+            font-size: 13px; color: var(--text-mid); line-height: 1.7;
+            margin-bottom: 72px;
+        }
+        .pricing-note strong { color: var(--navy); }
+
+        /* ── CTA ── */
+        .cta-strip {
+            background: linear-gradient(120deg, var(--orange) 0%, #c94e00 100%);
+            border-radius: 16px; padding: 56px; text-align: center;
+        }
+        .cta-strip h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem; color: #fff; margin-bottom: 12px; font-weight: 700;
+        }
+        .cta-strip p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 28px; }
+        .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn-white {
+            background: #fff; color: var(--orange);
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 700; font-size: 14px; text-decoration: none; transition: 0.2s;
+        }
+        .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .cta-btn-ghost {
+            background: transparent; color: #fff;
+            padding: 12px 32px; border-radius: 6px;
+            font-weight: 600; font-size: 14px;
+            text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); transition: 0.2s;
+        }
+        .cta-btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+        @media(max-width:900px) {
+            .cta-strip { padding: 32px; }
+        }
+    </style>
 </head>
 <body>
 
-    <header id="main-header"></header>
+    <!-- Nav injected by nav.js -->
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="section-tag">Our Pricing</div>
+        <h1>Transparent Service Models</h1>
+        <p>Providing "Rooted Trust" through clear and competitive service structures.</p>
+    </div>
 
     <div class="content-area">
-        <h1>Transparent Service Models</h1>
-        <p class="subtitle">Providing "Rooted Trust" through clear and competitive service structures.</p>
+
+        <div class="section-tag" style="text-align:center; display:block;">What We Offer</div>
+        <h2 class="section-title" style="text-align:center; margin:0 auto 8px;">Simple, Honest Pricing</h2>
+        <p class="section-sub">No hidden fees, no surprises — just clear value for every service we provide.</p>
 
         <div class="pricing-grid">
             <div class="price-card">
@@ -30,7 +151,7 @@
                 <h2>Insurance Planning</h2>
                 <div class="cost">Premium Based</div>
                 <ul class="pricing-features">
-                    <li>Life & Health Cover Audit</li>
+                    <li>Life &amp; Health Cover Audit</li>
                     <li>Term Insurance Comparison</li>
                     <li>Claim Support Assistance</li>
                     <li>Nominee Documentation Help</li>
@@ -50,9 +171,25 @@
                 <a href="contact.html" class="pricing-btn">Book Consultation</a>
             </div>
         </div>
+
+        <!-- Disclaimer -->
+        <div class="pricing-note">
+            <strong>Note:</strong> As an AMFI-registered distributor and IRDAI-licensed advisor, our compensation may be received via commissions from Mutual Fund houses and Insurance providers, as per regulatory norms. We remain committed to recommending products that align with your goals, never driven by commission — your trust comes first.
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-strip">
+            <h2>Have Questions About Pricing?</h2>
+            <p>Book a free consultation and we'll walk you through which service fits your needs best.</p>
+            <div class="cta-btns">
+                <a href="contact.html" class="cta-btn-white">Book Free Consultation</a>
+                <a href="tel:9434643120" class="cta-btn-ghost">📞 Call: 94346 43120</a>
+            </div>
+        </div>
+
     </div>
 
     <script src="nav.js"></script>
-	<script src="footer.js"></script>
+    <script src="footer.js"></script>
 </body>
 </html>
